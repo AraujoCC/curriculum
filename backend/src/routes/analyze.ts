@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import { PDFParse } from "pdf-parse";
-import { analyzeWithClaude } from "../services/claudeService";
+import { analyzeWithAI } from "../services/aiService";
 
 const router = Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -20,7 +20,7 @@ router.post("/analyze", upload.single("file"), async (req, res) => {
     const parser = new PDFParse({ data: req.file.buffer });
     const { text: resumeText } = await parser.getText();
     await parser.destroy();
-    const result = await analyzeWithClaude(resumeText, jobDescription);
+    const result = await analyzeWithAI(resumeText, jobDescription);
 
     return res.json(result);
   } catch (error) {

@@ -1,17 +1,13 @@
-import Anthropic from "@anthropic-ai/sdk";
+import Groq from "groq-sdk";
 import { AnalysisResult } from "../types/analysis";
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function extractLikelyJson(raw: string): string {
   const trimmed = raw.trim();
-
   const fencedMatch = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
-  if (fencedMatch?.[1]) {
-    return fencedMatch[1].trim();
-  }
+
+  if (fencedMatch?.[1]) return fencedMatch[1].trim();
 
   const firstBrace = trimmed.indexOf("{");
   const lastBrace = trimmed.lastIndexOf("}");
@@ -22,18 +18,12 @@ function extractLikelyJson(raw: string): string {
   return trimmed;
 }
 
-function parseAnalysisResult(raw: string): AnalysisResult {
-  const candidate = extractLikelyJson(raw);
-  return JSON.parse(candidate) as AnalysisResult;
-}
-
-export async function analyzeWithClaude(
+export async function analyzeWithAI(
   resume: string,
   jobDescription: string,
 ): Promise<AnalysisResult> {
-  const message = await client.messages.create({
-    model: "claude-opus-4-1-20250805",
-    max_tokens: 2048,
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
     messages: [
       {
         role: "user",
@@ -65,12 +55,11 @@ Responda APENAS com o JSON, sem texto adicional.
         `,
       },
     ],
+    temperature: 0.3,
   });
 
-  const content = message.content[0];
-  if (!content || content.type !== "text") {
-    throw new Error("Unexpected Claude response format.");
-  }
+  const text = completion.choices[0]?.message?.content;
+  if (!text) throw new Error("Unexpected Groq response format.");
 
-  return parseAnalysisResult(content.text);
+  return JSON.parse(extractLikelyJson(text)) as AnalysisResult;
 }
