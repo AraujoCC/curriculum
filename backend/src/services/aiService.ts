@@ -1,7 +1,13 @@
 import Groq from "groq-sdk";
 import { AnalysisResult } from "../types/analysis";
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+function getGroqClient() {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) {
+    throw new Error("GROQ_API_KEY is missing. Set it in backend/.env.");
+  }
+  return new Groq({ apiKey });
+}
 
 function extractLikelyJson(raw: string): string {
   const trimmed = raw.trim();
@@ -22,6 +28,8 @@ export async function analyzeWithAI(
   resume: string,
   jobDescription: string,
 ): Promise<AnalysisResult> {
+  const groq = getGroqClient();
+
   const completion = await groq.chat.completions.create({
     model: "llama-3.3-70b-versatile",
     messages: [

@@ -18,9 +18,11 @@ export default function ResumeDropzone({ file, onFileSelect }: Props) {
     <div {...getRootProps()} className={`dropzone ${isDragActive ? "active" : ""}`}>
       <input {...getInputProps()} />
       {file ? (
-        <p>Arquivo selecionado: {file.name}</p>
+        <p>
+          <strong>Arquivo selecionado:</strong> {file.name}
+        </p>
       ) : (
-        <p>Arraste o PDF aqui ou clique para selecionar</p>
+        <p>Arraste o curriculo em PDF aqui ou clique para selecionar</p>
       )}
     </div>
   );
