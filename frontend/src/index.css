@@ -3,24 +3,24 @@
 }
 
 :root {
-  --bg: #090909;
-  --bg-soft: #121212;
+  --bg: #0a0a0a;
+  --bg-soft: #141414;
   --panel: rgba(20, 20, 20, 0.86);
-  --panel-border: rgba(120, 120, 120, 0.25);
+  --panel-border: rgba(255, 0, 0, 0.2);
   --text: #f1f1f1;
   --muted: #8c8c8c;
-  --accent: #fb7185;
-  --accent-2: #fecdd3;
+  --accent: #ff0000;
+  --accent-2: #ff3333;
   --success: #10b981;
-  --danger: #f43f5e;
+  --danger: #ff0000;
 }
 
 body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
   background:
-    radial-gradient(circle at 10% 10%, rgba(251, 113, 133, 0.16), transparent 40%),
-    radial-gradient(circle at 90% 0%, rgba(254, 205, 211, 0.08), transparent 28%),
+    radial-gradient(circle at 10% 10%, rgba(255, 0, 0, 0.15), transparent 40%),
+    radial-gradient(circle at 90% 0%, rgba(255, 0, 0, 0.08), transparent 28%),
     var(--bg);
   color: var(--text);
 }
@@ -67,9 +67,9 @@ body {
   align-items: center;
   gap: 0.4rem;
   width: fit-content;
-  border: 1px solid rgba(251, 113, 133, 0.45);
-  background: rgba(251, 113, 133, 0.16);
-  color: #fecdd3;
+  border: 1px solid rgba(255, 0, 0, 0.45);
+  background: rgba(255, 0, 0, 0.16);
+  color: #ff3333;
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
   font-size: 0.78rem;
@@ -90,7 +90,7 @@ textarea {
   padding: 0.9rem;
   font: inherit;
   color: var(--text);
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(20, 0, 0, 0.5);
 }
 
 button {
@@ -108,19 +108,19 @@ button:disabled {
 }
 
 .primary-btn {
-  background: linear-gradient(120deg, var(--accent), #ef4444);
+  background: linear-gradient(120deg, var(--accent), #cc0000);
 }
 
 .ghost-btn {
-  background: rgba(148, 163, 184, 0.12);
+  background: rgba(255, 0, 0, 0.12);
   border: 1px solid var(--panel-border);
 }
 
 .dropzone {
   padding: 2rem;
-  border: 1.5px dashed rgba(148, 163, 184, 0.45);
+  border: 1.5px dashed rgba(255, 0, 0, 0.35);
   border-radius: 16px;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(255, 0, 0, 0.1);
   text-align: center;
   cursor: pointer;
   color: var(--muted);
@@ -128,8 +128,8 @@ button:disabled {
 
 .dropzone.active {
   border-color: var(--accent);
-  background: rgba(251, 113, 133, 0.13);
-  color: #fecdd3;
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff3333;
 }
 
 .grid-two {
@@ -187,9 +187,9 @@ button:disabled {
 }
 
 .badge-missing {
-  background: rgba(244, 63, 94, 0.14);
-  color: #fda4af;
-  border-color: rgba(244, 63, 94, 0.34);
+  background: rgba(255, 0, 0, 0.14);
+  color: #ff6666;
+  border-color: rgba(255, 0, 0, 0.34);
 }
 
 .gauge-wrap {
@@ -204,7 +204,7 @@ button:disabled {
   display: grid;
   place-items: center;
   transition: all 300ms ease;
-  box-shadow: 0 0 24px rgba(251, 113, 133, 0.25);
+  box-shadow: 0 0 24px rgba(255, 0, 0, 0.3);
 }
 
 .gauge-inner {
@@ -234,9 +234,9 @@ button:disabled {
 }
 
 .error {
-  color: #fecdd3;
-  background: rgba(244, 63, 94, 0.18);
-  border: 1px solid rgba(244, 63, 94, 0.35);
+  color: #ff6666;
+  background: rgba(255, 0, 0, 0.18);
+  border: 1px solid rgba(255, 0, 0, 0.35);
   border-radius: 10px;
   padding: 0.55rem 0.7rem;
 }

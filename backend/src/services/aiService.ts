@@ -1,5 +1,21 @@
 import Groq from "groq-sdk";
+import { z } from "zod";
 import { AnalysisResult } from "../types/analysis";
+
+// ── Runtime schema — validates the AI response before it reaches the client ───
+const AnalysisResultSchema = z.object({
+  atsScore: z.number().min(0).max(100),
+  matchedKeywords: z.array(z.string()),
+  missingKeywords: z.array(z.string()),
+  strengths: z.array(z.string()),
+  weaknesses: z.array(z.string()),
+  suggestions: z.object({
+    summary: z.string(),
+    bullets: z.array(z.string()),
+    keywords: z.array(z.string()),
+  }),
+  rewrittenSummary: z.string(),
+});
 
 function getGroqClient() {
   const apiKey = process.env.GROQ_API_KEY;
@@ -69,5 +85,9 @@ Responda APENAS com o JSON, sem texto adicional.
   const text = completion.choices[0]?.message?.content;
   if (!text) throw new Error("Unexpected Groq response format.");
 
-  return JSON.parse(extractLikelyJson(text)) as AnalysisResult;
+  const parsed = JSON.parse(extractLikelyJson(text));
+
+  // Validate against the Zod schema — throws ZodError if the AI response is malformed
+  const validated = AnalysisResultSchema.parse(parsed);
+  return validated as AnalysisResult;
 }

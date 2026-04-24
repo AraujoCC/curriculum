@@ -5,23 +5,42 @@ interface Props {
 export default function AtsScoreGauge({ score }: Props) {
   const normalized = Math.max(0, Math.min(100, score));
   const angle = (normalized / 100) * 360;
-  const scoreLabel =
-    normalized >= 80 ? "Excelente aderencia" : normalized >= 60 ? "Boa aderencia" : "Pode melhorar";
+  const color = normalized >= 70 ? "#4ade80" : normalized >= 50 ? "#fbbf24" : "#f87171";
+  const label =
+    normalized >= 70 ? "OTIMIZADO" : normalized >= 50 ? "COMPATIVEL" : "INCOMPATIVEL";
 
   return (
-    <div className="gauge-wrap">
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
       <div
-        className="gauge"
         style={{
-          background: `conic-gradient(#7c3aed ${angle}deg, rgba(255,255,255,0.1) ${angle}deg)`,
+          width: 120,
+          height: 120,
+          borderRadius: "50%",
+          background: `conic-gradient(${color} ${angle}deg, #1a1a1a ${angle}deg)`,
+          display: "grid",
+          placeItems: "center",
+          boxShadow: `0 0 20px ${color}33`,
         }}
       >
-        <div className="gauge-inner">
-          <span className="gauge-value">{normalized}%</span>
-          <span className="gauge-label">ATS Score</span>
-          <span className="gauge-subtitle">{scoreLabel}</span>
+        <div
+          style={{
+            width: 88,
+            height: 88,
+            borderRadius: "50%",
+            background: "#0e0e0e",
+            display: "grid",
+            placeItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <span style={{ fontSize: 22, fontWeight: 700, color, fontFamily: "'IBM Plex Mono', monospace" }}>
+            {normalized}
+          </span>
         </div>
       </div>
+      <span style={{ fontSize: 10, letterSpacing: "0.1em", color, fontFamily: "'IBM Plex Mono', monospace" }}>
+        {label}
+      </span>
     </div>
   );
 }
